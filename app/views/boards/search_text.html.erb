@@ -1,0 +1,6 @@
+<% @boards.each do |board| %>
+  <li class="list-group-item" role="option" data-autocomplete-value="<%= board.id %>" data-autocomplete-label="<%= board.text %>">
+    <%= board.text %>
+    <span class="badge"><%= board.title %></span>
+  </li>
+<% end %>

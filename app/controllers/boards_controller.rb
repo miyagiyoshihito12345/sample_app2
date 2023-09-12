@@ -1,9 +1,16 @@
 class BoardsController < ApplicationController
   before_action :set_board, only: %i[ show edit update destroy ]
-
+  layout 'layouts/admin_login', only: %i[ search_title search_text ]
   # GET /boards or /boards.json
   def index
-    @boards = Board.all
+    @q = Board.ransack(params[:q])
+    @boards = @q.result(distinct: true)
+  end
+  def search_title
+    @boards = Board.where("title like ?", "%#{params[:q]}%")
+  end
+  def search_text
+    @boards = Board.where("text like ?", "%#{params[:q]}%")
   end
 
   # GET /boards/1 or /boards/1.json
@@ -58,13 +65,13 @@ class BoardsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_board
-      @board = Board.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_board
+    @board = Board.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def board_params
-      params.require(:board).permit(:title, :text)
-    end
+  # Only allow a list of trusted parameters through.
+  def board_params
+    params.require(:board).permit(:title, :text)
+  end
 end

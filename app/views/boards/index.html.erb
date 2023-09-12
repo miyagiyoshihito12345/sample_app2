@@ -1,6 +1,23 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Boards</h1>
+<%= search_form_for @q, url: boards_path do |f| %>
+  <div class="input-group">
+    <div data-controller="autocomplete" data-autocomplete-url-value="/boards/search_title" style="position: relative;" role="combobox">
+      <%= f.search_field :title_cont, data: { 'autocomplete-target' => 'input' } %>
+      <%= f.hidden_field :id, data: { 'autocomplete-target' => 'hidden' } %>
+      <ul class="list-group" data-autocomplete-target="results" style="width: 185px; position: absolute; z-index: 10;"></ul>
+    </div>
+    <div data-controller="autocomplete" data-autocomplete-url-value="/boards/search_text" style="position: relative;" role="combobox">
+      <%= f.search_field :text_cont, data: { 'autocomplete-target' => 'input' } %>
+      <%= f.hidden_field :id, data: { 'autocomplete-target' => 'hidden' } %>
+      <ul class="list-group" data-autocomplete-target="results" style="width: 185px; position: absolute; z-index: 10;"></ul>
+    </div>
+    <div class="input-group-append">
+      <%= f.submit  class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
 
 <div class="btn-group">
   <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
